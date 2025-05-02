@@ -2,25 +2,23 @@ import React, { use } from "react";
 import { Link, NavLink } from "react-router";
 import userIcon from "../assets/user.png";
 import { AuthContext } from "../Provider/Context";
+import toast from "react-hot-toast";
 const Navbar = () => {
     const { user, logOutUser } = use(AuthContext);
 
     const handleLogout = () => {
         logOutUser()
             .then(() => {
-                console.log(
-                    "User has been logged out successfully"
-                );
             })
-            .catch((error) => {
-                console.log(error, "has been caught successfully");
+            .catch(() => {
             });
+        toast.success("Logout Successfully");
     };
     return (
         <div className="flex justify-between items-center">
             <div>
                 {user && (
-                    <p className="text-md font-bold">
+                    <p className="md:text-md text-sm font-bold">
                         Welcome to{" "}
                         <span className="text-secondary">
                             {user.displayName}
@@ -28,7 +26,7 @@ const Navbar = () => {
                     </p>
                 )}
             </div>
-            <div className="nav flex gap-5 text-accent font-bold">
+            <div className="nav md:flex gap-5 text-accent font-bold hidden">
                 <NavLink to="/">Home</NavLink>
                 <NavLink to="/about">About</NavLink>
                 <NavLink to="/career">Career</NavLink>
@@ -51,11 +49,11 @@ const Navbar = () => {
                     <Link
                         to="/auth/login"
                         onClick={handleLogout}
-                        className="btn btn-primary px-10">
+                        className="btn btn-primary md:px-10">
                         LogOut
                     </Link>
                 ) : (
-                    <Link to="/auth/login" className="btn btn-primary px-10">
+                    <Link to="/auth/login" className="btn btn-primary md:px-10">
                         Login
                     </Link>
                 )}

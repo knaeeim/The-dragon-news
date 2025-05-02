@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./Context";
 import app from "../FireBase/Firebase.config";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 
 const auth = getAuth(app);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true);
 
     const createUser = (email, password) => {
+        setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
     }
 
-    console.log(user);
+    // console.log(user);
+
+    const updatePass = ( email ) => {
+        return sendPasswordResetEmail(auth, email)
+    }
 
     const updateUser = (userInfo) => {
         return updateProfile(auth.currentUser, userInfo)
@@ -23,12 +29,14 @@ const AuthProvider = ({ children }) => {
     }
 
     const logInUser = (email, password) => {
+        setLoading(true);
         return signInWithEmailAndPassword(auth, email, password);
     } 
 
     useEffect(()=> {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
+            setLoading(false);
         })
         return () => {
             unsubscribe();
@@ -42,6 +50,8 @@ const AuthProvider = ({ children }) => {
         updateUser,
         logOutUser,
         logInUser,
+        loading,
+        updatePass,
     }
     return (
         <AuthContext.Provider value={authInfo}>

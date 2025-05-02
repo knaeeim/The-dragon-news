@@ -1,16 +1,20 @@
-import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router";
+import React, { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/Context";
+import toast from "react-hot-toast";
 
 const Login = () => {
-
+    const [error, setError] = useState('');
     const { logInUser } = useContext(AuthContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    // console.log(location);
 
     const handleLogin = (e) => {
         e.preventDefault();
         const form = e.target;
 
+        setError('')
         // form values
         const email = form.email.value;
         const password = form.password.value;
@@ -18,13 +22,18 @@ const Login = () => {
         logInUser(email, password)
         .then((result) => {
             const user = result.user;
-            console.log(user.displayName, "has been logged in successfully");
+            toast.success(`${user.displayName} Login Successfully`);
+            navigate(`${location.state ? location.state : '/'}`);
         })
         .catch((error) => {
-            console.log(error, "has been caught successfully");
+            console.log(error);
+            setError(error.code, error.message)
         })
 
-        navigate("/")
+    }
+
+    const handleForgetPassword = () => {
+        navigate('/auth/forgate-password');
     }
 
     return (
@@ -40,6 +49,7 @@ const Login = () => {
                             type="email"
                             className="input"
                             placeholder="Email"
+                            required
                         />
 
                         {/* password */}
@@ -49,9 +59,13 @@ const Login = () => {
                             type="password"
                             className="input"
                             placeholder="Password"
+                            required
                         />
+                        {
+                            error && <p className="text-red-500 text-sm">{error}</p>
+                        }
                         <div>
-                            <a className="link link-hover">Forgot password?</a>
+                            <a onClick={handleForgetPassword} className="link link-hover">Forgot password?</a>
                         </div>
                         <button type="submit" className="btn btn-neutral mt-4">Login</button>
                         <p className="font-semibold text-center mt-2">Don't have an account <Link className="text-secondary" to='/auth/register'>Register</Link></p>

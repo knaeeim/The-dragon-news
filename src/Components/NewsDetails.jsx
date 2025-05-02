@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import RightAside from "./HomeLayout/RightAside";
-import { useLocation, useNavigate } from "react-router";
+import { useLoaderData, useNavigate, useParams } from "react-router";
 
 const NewsDetails = () => {
-    const location = useLocation();
-    console.log(location);
-    const { news } = location.state || {};
-    console.log(news);
+    const params = useParams();
+    // get news data from location state
+    const data = useLoaderData();
+    const [news, setNews] = useState({});
+    // for back button
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const newsData = data.find((item) => item.id === params.id);
+        setNews(newsData);
+    },[data, params.id])
+
+
     const {
         title,
         author,
@@ -22,7 +30,7 @@ const NewsDetails = () => {
                 <Header></Header>
             </header>
             <div className="main w-11/12 mx-auto grid grid-cols-12 gap-5 mt-5">
-                <div className="news-div col-span-9 px-10 py-10 shadow-xl">
+                <div className="news-div md:col-span-9 col-span-12 px-10 py-10 shadow-xl">
                     <div className="mb-5">
                         <button onClick={() => navigate(-1)} className="btn btn-primary">Back to Home</button>
                     </div>
@@ -56,7 +64,7 @@ const NewsDetails = () => {
                     </div>
                 </div>
 
-                <div className="right-aside col-span-3">
+                <div className="right-aside md:col-span-3 col-span-12">
                     <RightAside></RightAside>
                 </div>
             </div>
