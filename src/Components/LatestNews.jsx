@@ -8,10 +8,17 @@ const LatestNews = () => {
                 Latest News
             </h1>
             <Marquee pauseOnHover={true}>
-                <p className="font-bold">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Quia quas ullam atque inventore laborum placeat accusantium
-                    ipsum! Ab, deserunt? Nihil.
+                <p className="font-bold ml-10">
+                    শেখ হাসিনা বললেন, রোববার থেকে বুধবারে সরাসরি জাম্প দিলে ট্রাফিক জ্যাম কমবে!
+                </p>
+                <p className="font-bold ml-10">
+                    রাত ২টায় হঠাৎ ঘুম থেকে উঠে বললেন: 'পদ্মা সেতু আমিই বানাইছি, স্বপ্নেও!
+                </p>
+                <p className="font-bold ml-10">
+                    নতুন ঘোষণা: যাদের মুখে 'উন্নয়ন' শব্দ নেই, তাদের ভোটার আইডি এক মাসের জন্য স্থগিত!
+                </p>
+                <p className="font-bold ml-10">
+                    গণভবনে চালু হলো 'উন্নয়ন থেরাপি'— যেখানে দিনে ৩ বার শেখ হাসিনার ভাষণ শুনে মন ভালো থাকে!
                 </p>
             </Marquee>
         </div>
